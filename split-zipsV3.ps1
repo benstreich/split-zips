@@ -449,6 +449,16 @@ function Split-ZipFile {
         $currentSize += $file.CompressedLength
 
         if ($currentSize -gt $targetSizeKB * 1KB) {
+
+            if($dateadd -eq $true)
+            {
+                $newZipPath = [System.IO.Path]::ChangeExtension($zipFilePath, "_${splitIndex}_${todaysdate}.zip")
+            }
+            else
+            {
+                $newZipPath = [System.IO.Path]::ChangeExtension($zipFilePath, "_${splitIndex}.zip")
+            }
+            
             $newZipPath = [System.IO.Path]::ChangeExtension($zipFilePath, "_${splitIndex}_${todaysdate}.zip")
             CreateNewZipWithCSV -newZipPath $newZipPath -currentFiles $currentFiles $csvheaders $neworder
             $splitIndex++
@@ -461,6 +471,7 @@ function Split-ZipFile {
     }
 
     if ($currentFiles.Count -gt 0) {
+
         if($dateadd -eq $true)
         {
             $newZipPath = [System.IO.Path]::ChangeExtension($zipFilePath, "_${splitIndex}_${todaysdate}.zip")
